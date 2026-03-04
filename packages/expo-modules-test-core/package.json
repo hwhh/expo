@@ -30,7 +30,7 @@
   "dependencies": {
     "@types/node": "^22.14.0",
     "glob": "^13.0.0",
-    "prettier": "^3.0.3",
+    "prettier": "^3.5.3",
     "xml-js": "^1.6.11",
     "yaml": "^2.3.2"
   }
