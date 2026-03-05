@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native/src/private/webapis/dom/nodes/specs/NativeDOM.js b/node_modules/react-native/src/private/webapis/dom/nodes/specs/NativeDOM.js
-index 5709b1a..565662f 100644
+index 28f9e44..63f68ce 100644
 --- a/node_modules/react-native/src/private/webapis/dom/nodes/specs/NativeDOM.js
 +++ b/node_modules/react-native/src/private/webapis/dom/nodes/specs/NativeDOM.js
 @@ -52,25 +52,25 @@ export interface Spec extends TurboModule {
@@ -14,7 +14,7 @@ index 5709b1a..565662f 100644
  
    +getChildNodes: (
 -    nativeNodeReference: unknown /* NativeNodeReference */,
--  ) => $ReadOnlyArray<unknown> /* $ReadOnlyArray<InstanceHandle> */;
+-  ) => ReadonlyArray<unknown> /* $ReadOnlyArray<InstanceHandle> */;
 +    nativeNodeReference: mixed /* NativeNodeReference */,
 +  ) => $ReadOnlyArray<mixed> /* $ReadOnlyArray<InstanceHandle> */;
  
@@ -42,29 +42,34 @@ index 5709b1a..565662f 100644
  
    +getBorderWidth: (
 -    nativeElementReference: unknown /* NativeElementReference */,
+-  ) => ReadonlyArray<number> /* [topWidth: number, rightWidth: number, bottomWidth: number, leftWidth: number] */;
 +    nativeElementReference: mixed /* NativeElementReference */,
-   ) => $ReadOnlyArray<number> /* [topWidth: number, rightWidth: number, bottomWidth: number, leftWidth: number] */;
++  ) => $ReadOnlyArray<number> /* [topWidth: number, rightWidth: number, bottomWidth: number, leftWidth: number] */;
  
    +getBoundingClientRect: (
 -    nativeElementReference: unknown /* NativeElementReference */,
 +    nativeElementReference: mixed /* NativeElementReference */,
      includeTransform: boolean,
-   ) => $ReadOnlyArray<number> /* [x: number, y: number, width: number, height: number] */;
+-  ) => ReadonlyArray<number> /* [x: number, y: number, width: number, height: number] */;
++  ) => $ReadOnlyArray<number> /* [x: number, y: number, width: number, height: number] */;
  
    +getInnerSize: (
 -    nativeElementReference: unknown /* NativeElementReference */,
+-  ) => ReadonlyArray<number> /* [width: number, height: number] */;
 +    nativeElementReference: mixed /* NativeElementReference */,
-   ) => $ReadOnlyArray<number> /* [width: number, height: number] */;
++  ) => $ReadOnlyArray<number> /* [width: number, height: number] */;
  
    +getScrollPosition: (
 -    nativeElementReference: unknown /* NativeElementReference */,
+-  ) => ReadonlyArray<number> /* [scrollLeft: number, scrollTop: number] */;
 +    nativeElementReference: mixed /* NativeElementReference */,
-   ) => $ReadOnlyArray<number> /* [scrollLeft: number, scrollTop: number] */;
++  ) => $ReadOnlyArray<number> /* [scrollLeft: number, scrollTop: number] */;
  
    +getScrollSize: (
 -    nativeElementReference: unknown /* NativeElementReference */,
+-  ) => ReadonlyArray<number> /* [scrollWidth: number, scrollHeight: number] */;
 +    nativeElementReference: mixed /* NativeElementReference */,
-   ) => $ReadOnlyArray<number> /* [scrollWidth: number, scrollHeight: number] */;
++  ) => $ReadOnlyArray<number> /* [scrollWidth: number, scrollHeight: number] */;
  
    +getTagName: (
 -    nativeElementReference: unknown /* NativeElementReference */,
@@ -99,7 +104,7 @@ index 5709b1a..565662f 100644
  
    +getOffset: (
 -    nativeElementReference: unknown /* NativeElementReference */,
--  ) => $ReadOnlyArray<unknown> /* [offsetParent: ?InstanceHandle, top: number, left: number] */;
+-  ) => ReadonlyArray<unknown> /* [offsetParent: ?InstanceHandle, top: number, left: number] */;
 +    nativeElementReference: mixed /* NativeElementReference */,
 +  ) => $ReadOnlyArray<mixed> /* [offsetParent: ?InstanceHandle, top: number, left: number] */;
  
@@ -149,6 +154,15 @@ index 5709b1a..565662f 100644
    ) => void;
  }
  
+@@ -199,7 +199,7 @@ export interface RefinedSpec {
+    */
+   +getChildNodes: (
+     nativeNodeReference: NativeNodeReference,
+-  ) => ReadonlyArray<InstanceHandle>;
++  ) => $ReadOnlyArray<InstanceHandle>;
+ 
+   /**
+    * This is a React Native implementation of `Document.prototype.getElementById`
 diff --git a/node_modules/react-native/src/private/webapis/idlecallbacks/specs/NativeIdleCallbacks.js b/node_modules/react-native/src/private/webapis/idlecallbacks/specs/NativeIdleCallbacks.js
 index 1b5f835..4241e5e 100644
 --- a/node_modules/react-native/src/private/webapis/idlecallbacks/specs/NativeIdleCallbacks.js
@@ -178,28 +192,36 @@ index 1b5f835..4241e5e 100644
    ) => IdleCallbackID;
    +cancelIdleCallback: (handle: IdleCallbackID) => void;
 diff --git a/node_modules/react-native/src/private/webapis/intersectionobserver/specs/NativeIntersectionObserver.js b/node_modules/react-native/src/private/webapis/intersectionobserver/specs/NativeIntersectionObserver.js
-index ebadf4a..fed5c09 100644
+index cbe579b..fed5c09 100644
 --- a/node_modules/react-native/src/private/webapis/intersectionobserver/specs/NativeIntersectionObserver.js
 +++ b/node_modules/react-native/src/private/webapis/intersectionobserver/specs/NativeIntersectionObserver.js
-@@ -14,7 +14,7 @@ import * as TurboModuleRegistry from '../../../../../Libraries/TurboModule/Turbo
+@@ -14,25 +14,25 @@ import * as TurboModuleRegistry from '../../../../../Libraries/TurboModule/Turbo
  
  export type NativeIntersectionObserverEntry = {
    intersectionObserverId: number,
 -  targetInstanceHandle: unknown,
+-  targetRect: ReadonlyArray<number>, // It's actually a tuple with x, y, width and height
+-  rootRect: ReadonlyArray<number>, // It's actually a tuple with x, y, width and height
 +  targetInstanceHandle: mixed,
-   targetRect: $ReadOnlyArray<number>, // It's actually a tuple with x, y, width and height
-   rootRect: $ReadOnlyArray<number>, // It's actually a tuple with x, y, width and height
++  targetRect: $ReadOnlyArray<number>, // It's actually a tuple with x, y, width and height
++  rootRect: $ReadOnlyArray<number>, // It's actually a tuple with x, y, width and height
    // TODO(T209328432) - Remove optionality of intersectionRect when native changes are released
-@@ -25,14 +25,14 @@ export type NativeIntersectionObserverEntry = {
+-  intersectionRect: ?ReadonlyArray<number>, // It's actually a tuple with x, y, width and height
++  intersectionRect: ?$ReadOnlyArray<number>, // It's actually a tuple with x, y, width and height
+   isIntersectingAboveThresholds: boolean,
+   time: number,
+ };
  
  export type NativeIntersectionObserverObserveOptions = {
    intersectionObserverId: number,
 -  rootShadowNode?: ?unknown,
 -  targetShadowNode: unknown,
+-  thresholds: ReadonlyArray<number>,
+-  rootThresholds?: ?ReadonlyArray<number>,
 +  rootShadowNode?: ?mixed,
 +  targetShadowNode: mixed,
-   thresholds: $ReadOnlyArray<number>,
-   rootThresholds?: ?$ReadOnlyArray<number>,
++  thresholds: $ReadOnlyArray<number>,
++  rootThresholds?: ?$ReadOnlyArray<number>,
    rootMargin?: ?string,
  };
  
@@ -208,6 +230,15 @@ index ebadf4a..fed5c09 100644
  
  export interface Spec extends TurboModule {
    +observeV2?: (
+@@ -44,7 +44,7 @@ export interface Spec extends TurboModule {
+   ) => void;
+   +connect: (notifyIntersectionObserversCallback: () => void) => void;
+   +disconnect: () => void;
+-  +takeRecords: () => ReadonlyArray<NativeIntersectionObserverEntry>;
++  +takeRecords: () => $ReadOnlyArray<NativeIntersectionObserverEntry>;
+ }
+ 
+ export default (TurboModuleRegistry.get<Spec>(
 diff --git a/node_modules/react-native/src/private/webapis/microtasks/specs/NativeMicrotasks.js b/node_modules/react-native/src/private/webapis/microtasks/specs/NativeMicrotasks.js
 index c6be40a..4f07158 100644
 --- a/node_modules/react-native/src/private/webapis/microtasks/specs/NativeMicrotasks.js
@@ -222,10 +253,10 @@ index c6be40a..4f07158 100644
  
  export default (TurboModuleRegistry.getEnforcing<Spec>(
 diff --git a/node_modules/react-native/src/private/webapis/mutationobserver/specs/NativeMutationObserver.js b/node_modules/react-native/src/private/webapis/mutationobserver/specs/NativeMutationObserver.js
-index aa0823f..c4fbcb2 100644
+index ade4886..c4fbcb2 100644
 --- a/node_modules/react-native/src/private/webapis/mutationobserver/specs/NativeMutationObserver.js
 +++ b/node_modules/react-native/src/private/webapis/mutationobserver/specs/NativeMutationObserver.js
-@@ -15,10 +15,10 @@ import * as TurboModuleRegistry from '../../../../../Libraries/TurboModule/Turbo
+@@ -15,16 +15,16 @@ import * as TurboModuleRegistry from '../../../../../Libraries/TurboModule/Turbo
  export type MutationObserverId = number;
  
  // These types are not supported by the codegen.
@@ -240,11 +271,28 @@ index aa0823f..c4fbcb2 100644
  
  export type NativeMutationRecord = {
    mutationObserverId: MutationObserverId,
+   target: ReactNativeElement,
+-  addedNodes: ReadonlyArray<ReadOnlyNode>,
+-  removedNodes: ReadonlyArray<ReadOnlyNode>,
++  addedNodes: $ReadOnlyArray<ReadOnlyNode>,
++  removedNodes: $ReadOnlyArray<ReadOnlyNode>,
+   ...
+ };
+ 
+@@ -47,7 +47,7 @@ export interface Spec extends TurboModule {
+     ) => ReadOnlyNode,
+   ) => void;
+   +disconnect: () => void;
+-  +takeRecords: () => ReadonlyArray<NativeMutationRecord>;
++  +takeRecords: () => $ReadOnlyArray<NativeMutationRecord>;
+ }
+ 
+ export default (TurboModuleRegistry.get<Spec>(
 diff --git a/node_modules/react-native/src/private/webapis/performance/specs/NativePerformance.js b/node_modules/react-native/src/private/webapis/performance/specs/NativePerformance.js
-index 9bb167d..af194df 100644
+index 47025dd..af194df 100644
 --- a/node_modules/react-native/src/private/webapis/performance/specs/NativePerformance.js
 +++ b/node_modules/react-native/src/private/webapis/performance/specs/NativePerformance.js
-@@ -42,7 +42,7 @@ export type RawPerformanceEntry = {
+@@ -42,14 +42,14 @@ export type RawPerformanceEntry = {
    decodedBodySize?: number,
  };
  
@@ -253,7 +301,16 @@ index 9bb167d..af194df 100644
  
  export type NativeBatchedObserverCallback = () => void;
  export type NativePerformanceMarkResult = number;
-@@ -59,12 +59,12 @@ export interface Spec extends TurboModule {
+-export type NativePerformanceMeasureResult = ReadonlyArray<number>; // [startTime, duration]
++export type NativePerformanceMeasureResult = $ReadOnlyArray<number>; // [startTime, duration]
+ 
+ export type PerformanceObserverInit = {
+-  entryTypes?: ReadonlyArray<number>,
++  entryTypes?: $ReadOnlyArray<number>,
+   type?: number,
+   buffered?: boolean,
+   durationThreshold?: number,
+@@ -59,25 +59,25 @@ export interface Spec extends TurboModule {
    +now: () => number;
    +timeOrigin?: () => number;
  
@@ -268,3 +325,32 @@ index 9bb167d..af194df 100644
    ) => void;
    +getMarkTime: (name: string) => ?number;
    +clearMarks: (entryName?: string) => void;
+   +clearMeasures: (entryName?: string) => void;
+-  +getEntries: () => ReadonlyArray<RawPerformanceEntry>;
++  +getEntries: () => $ReadOnlyArray<RawPerformanceEntry>;
+   +getEntriesByName: (
+     entryName: string,
+     entryType?: ?RawPerformanceEntryType,
+-  ) => ReadonlyArray<RawPerformanceEntry>;
++  ) => $ReadOnlyArray<RawPerformanceEntry>;
+   +getEntriesByType: (
+     entryType: RawPerformanceEntryType,
+-  ) => ReadonlyArray<RawPerformanceEntry>;
+-  +getEventCounts: () => ReadonlyArray<[string, number]>;
++  ) => $ReadOnlyArray<RawPerformanceEntry>;
++  +getEventCounts: () => $ReadOnlyArray<[string, number]>;
+   +getSimpleMemoryInfo: () => NativeMemoryInfo;
+   +getReactNativeStartupTiming: () => ReactNativeStartupTiming;
+ 
+@@ -94,9 +94,9 @@ export interface Spec extends TurboModule {
+   +takeRecords: (
+     observer: OpaqueNativeObserverHandle,
+     sort: boolean,
+-  ) => ReadonlyArray<RawPerformanceEntry>;
++  ) => $ReadOnlyArray<RawPerformanceEntry>;
+ 
+-  +getSupportedPerformanceEntryTypes: () => ReadonlyArray<RawPerformanceEntryType>;
++  +getSupportedPerformanceEntryTypes: () => $ReadOnlyArray<RawPerformanceEntryType>;
+ 
+   +clearEventCountsForTesting: () => void;
+ }
