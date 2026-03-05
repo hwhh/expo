@@ -14,9 +14,13 @@ struct HomeRootView: View {
   @State private var showingUserProfile = false
   @State private var selectedTab: HomeTab = .home
   @AppStorage("ExpoGoOnboardingFinished") private var isOnboardingFinished = false
+  @State private var hasCompletedPermissionFlow: Bool
 
   init(viewModel: HomeViewModel) {
     self.viewModel = viewModel
+    let shouldSkip = DevelopmentServerService.isSimulator
+      || UserDefaults.standard.bool(forKey: "expo.go.hasGrantedNetworkPermission")
+    _hasCompletedPermissionFlow = State(initialValue: shouldSkip)
   }
 
   public var body: some View {
@@ -65,6 +69,14 @@ struct HomeRootView: View {
         OnboardingFlowView {
           withAnimation(.easeInOut(duration: 0.3)) {
             isOnboardingFinished = true
+          }
+        }
+        .transition(.opacity)
+      } else if !hasCompletedPermissionFlow {
+        LocalNetworkPermissionView(serverService: viewModel.serverService) {
+          viewModel.serverService.startDiscovery()
+          withAnimation(.easeInOut(duration: 0.3)) {
+            hasCompletedPermissionFlow = true
           }
         }
         .transition(.opacity)
